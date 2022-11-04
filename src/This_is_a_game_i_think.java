@@ -14,7 +14,7 @@ public class This_is_a_game_i_think{
 
 System.out.println("welcome to this is a game i think, i have absolutely what im going to do");
 
-/*
+
 JPanel mp = new JPanel();
 JFrame mf = new JFrame();
 JButton m1 = new JButton();
@@ -36,7 +36,7 @@ m4.setText("left");
 mf.add(mp);
 mf.pack();
 mf.show();
-*/
+
 
 
 JButton s1 = new JButton();
