@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -42,6 +43,7 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 	int remain = 25;
 	int defused = 25;
 
+	ArrayList<Pos>positions = new ArrayList<Pos>();
 
 	Random gen = new Random();
 
@@ -80,6 +82,8 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 		 * left.addActionListener(this); right.addActionListener(this);
 		 */
 
+		updateMap();
+		
 	}
 
 	// Up = y + 1
@@ -122,10 +126,11 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 			timer = new Timer(acel / speed, this);
 			timer.start();
 
+			time += 1;
+			
 		}
 
 		System.out.println(time);
-		System.out.println(remain);
 
 		time -= 1;
 
@@ -145,8 +150,11 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 			
 			gp.add(losetxt);
 			
-			losetxt.setText("<html>You Lose!<br><br>You defused " + defused + "<html> bombs<br>with " + remain + "<html> remaining");
+			losetxt.setPreferredSize(new Dimension(100, 110));
+
+			losetxt.setText("<html>You Lose!<br><br>You defused " + defused + "<html> bombs with " + remain + "<html> remaining<br>-------------");
 			
+			gf.pack();
 			
 		}
 
@@ -166,8 +174,10 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 			
 			gp.add(wintxt);
 			
+			wintxt.setPreferredSize(new Dimension(100, 75));
 			wintxt.setText("<html>You Win!<br><br>You defused all 25 bombs");
 			
+			gf.pack();
 
 		}
 
@@ -185,6 +195,15 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 		updateMap();
 
 	}
+	
+class Pos{
+	int x;
+	int y;
+	Pos(int x, int y){
+		this.x=x;
+		this.y=y;
+	}
+}
 
 	public void updateMap() {
 
@@ -195,15 +214,19 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 				if (x == j && y == i) {
 					map += " X ";
 				} else if (tx == j && ty == i) {
-					if (tx == x && ty == y) {
-						tx = gen.nextInt(5);
-						ty = gen.nextInt(5);
-
-						while (tx == x && ty == y) {
+					while (---) {
+						if (tx == x && ty == y) {
 							tx = gen.nextInt(5);
 							ty = gen.nextInt(5);
 						}
+						for (int i = 0; i < positions.size(); i++) {
+						if(position.geti.x == x && position.geti.y == y) {
+							tx = gen.nextInt(5);
+							ty = gen.nextInt(5);
+							}
+						}
 					}
+
 					map += " " + time + " ";
 
 				} else {
@@ -215,8 +238,13 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 
 		}
 
+		
 		gl.setText(map);
 
+		Pos p = new Pos (tx, ty);
+		positions.add(p);
+		
+		
 		gf.pack();
 
 	}
@@ -263,6 +291,8 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 			acel -= 1000;
 
 			remain -= 1;
+			System.out.println("Bombs remaining: " + remain);
+
 			timer.stop();
 			time = maxTime;
 			timer = new Timer(acel / speed, this);
