@@ -207,6 +207,8 @@ class Pos{
 
 	public void updateMap() {
 
+		boolean posit = false;
+		
 		String map = "<html>";
 		for (int i = 0; i < 5; i++) {
 
@@ -214,15 +216,19 @@ class Pos{
 				if (x == j && y == i) {
 					map += " X ";
 				} else if (tx == j && ty == i) {
-					while (---) {
 						if (tx == x && ty == y) {
+							while (posit==false) {
 							tx = gen.nextInt(5);
 							ty = gen.nextInt(5);
-						}
-						for (int i = 0; i < positions.size(); i++) {
-						if(position.geti.x == x && position.geti.y == y) {
-							tx = gen.nextInt(5);
-							ty = gen.nextInt(5);
+
+//							for (int l = 0; l < positions.size(); l++) {
+//								if(positions.get(l).x == tx && positions.get(l).y == ty) {
+//									tx = gen.nextInt(5);
+//									ty = gen.nextInt(5);
+//								}
+//							}
+							if(tx != x && ty != y) {
+								posit = true;
 							}
 						}
 					}
@@ -282,7 +288,7 @@ class Pos{
 				tx = gen.nextInt(5);
 				ty = gen.nextInt(5);
 
-				while (tx == x && ty == y) {
+				while (tx == x && ty == y && xNotInPreviousPos(positions,tx,ty)) {
 					tx = gen.nextInt(5);
 					ty = gen.nextInt(5);
 				}
@@ -302,6 +308,15 @@ class Pos{
 
 		updateMap();
 
+	}
+
+	private boolean xNotInPreviousPos(ArrayList<Bome_Defusal.Pos> positions2, int tx2, int ty2) {
+		for (int l = 0; l < positions.size(); l++) {
+			if(positions.get(l).x == tx2 && positions.get(l).y == ty2) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
