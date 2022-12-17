@@ -106,6 +106,8 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 
 			tx = gen.nextInt(5);
 			ty = gen.nextInt(5);
+			
+			positions.add(new Pos(tx, ty));
 
 			gf.addKeyListener(this);
 			gf.requestFocus();
@@ -130,9 +132,10 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 			
 		}
 
-		System.out.println(time);
+		//System.out.println(time);
 
-		time -= 1;
+		//time -= 1;
+		time = 3;
 
 		if (time <= 0) {
 			timer.stop();
@@ -207,7 +210,21 @@ class Pos{
 
 	public void updateMap() {
 
-		boolean posit = false;
+		//boolean posit = false;
+		
+//		while ((tx == x && ty == y) && !xNotInPreviousPos(positions,tx,ty)) {
+//			tx = gen.nextInt(5);
+//			ty = gen.nextInt(5);
+//
+////			for (int l = 0; l < positions.size(); l++) {
+////				if(positions.get(l).x == tx && positions.get(l).y == ty) {
+////					tx = gen.nextInt(5);
+////					ty = gen.nextInt(5);
+////				}
+////			}
+//		
+//		}
+		
 		
 		String map = "<html>";
 		for (int i = 0; i < 5; i++) {
@@ -216,22 +233,9 @@ class Pos{
 				if (x == j && y == i) {
 					map += " X ";
 				} else if (tx == j && ty == i) {
-						if (tx == x && ty == y) {
-							while (posit==false) {
-							tx = gen.nextInt(5);
-							ty = gen.nextInt(5);
-
-//							for (int l = 0; l < positions.size(); l++) {
-//								if(positions.get(l).x == tx && positions.get(l).y == ty) {
-//									tx = gen.nextInt(5);
-//									ty = gen.nextInt(5);
-//								}
-//							}
-							if(tx != x && ty != y) {
-								posit = true;
-							}
-						}
-					}
+						
+							
+					
 
 					map += " " + time + " ";
 
@@ -247,8 +251,8 @@ class Pos{
 		
 		gl.setText(map);
 
-		Pos p = new Pos (tx, ty);
-		positions.add(p);
+//		Pos p = new Pos (tx, ty);
+//		positions.add(p);
 		
 		
 		gf.pack();
@@ -282,22 +286,37 @@ class Pos{
 			}
 		}
 
-		if (tx == x && ty == y) {
+		if (tx == x && ty == y && remain>=0) {
 			
-			if (tx == x && ty == y) {
-				tx = gen.nextInt(5);
-				ty = gen.nextInt(5);
+//			if (tx == x && ty == y) {
+//				tx = gen.nextInt(5);
+//				ty = gen.nextInt(5);
+//
+//				while (tx == x && ty == y && xNotInPreviousPos(positions,tx,ty)) {
+//					tx = gen.nextInt(5);
+//					ty = gen.nextInt(5);
+//				}
+//			}
+			while (remain>1 && ((tx == x && ty == y) || inPreviousPos(positions,tx,ty))) {
+			tx = gen.nextInt(5);
+			ty = gen.nextInt(5);
 
-				while (tx == x && ty == y && xNotInPreviousPos(positions,tx,ty)) {
-					tx = gen.nextInt(5);
-					ty = gen.nextInt(5);
-				}
-			}
-
+//			for (int l = 0; l < positions.size(); l++) {
+//				if(positions.get(l).x == tx && positions.get(l).y == ty) {
+//					tx = gen.nextInt(5);
+//					ty = gen.nextInt(5);
+//				}
+//			}
+		
+		}
+			positions.add(new Pos(tx, ty));
+			
+			System.out.println(tx + " " + ty);
+			
 			acel -= 1000;
 
 			remain -= 1;
-			System.out.println("Bombs remaining: " + remain);
+			//System.out.println("Bombs remaining: " + remain);
 
 			timer.stop();
 			time = maxTime;
@@ -310,13 +329,13 @@ class Pos{
 
 	}
 
-	private boolean xNotInPreviousPos(ArrayList<Bome_Defusal.Pos> positions2, int tx2, int ty2) {
+	private boolean inPreviousPos(ArrayList<Bome_Defusal.Pos> positions2, int tx2, int ty2) {
 		for (int l = 0; l < positions.size(); l++) {
 			if(positions.get(l).x == tx2 && positions.get(l).y == ty2) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override
