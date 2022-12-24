@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -20,6 +21,7 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 
 	JLabel starttxt = new JLabel();
 	JButton startbut = new JButton();
+	JButton helpbut = new JButton();
 
 	/*
 	 * JPanel mp = new JPanel(); JFrame mf = new JFrame(); JButton up = new
@@ -29,10 +31,10 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 
 	int time;
 	int maxTime = 3;
-	int speed = 30;
+	int speed = 3;
 	Timer timer;
 
-	int acel = 30000;
+	int acel = 3000;
 
 	int x = 2;
 	int y = 2;
@@ -57,11 +59,14 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 
 		starttxt.setText("Bomb Defusal");
 		startbut.setText("Start");
+		helpbut.setText("Help");
 
 		gp.add(starttxt);
 		gp.add(startbut);
+		gp.add(helpbut);
 
 		startbut.addActionListener(this);
+		helpbut.addActionListener(this);
 
 		gf.setPreferredSize(new Dimension(100, 125));
 
@@ -93,8 +98,13 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+	
+		if (e.getSource() == helpbut) {
+		JOptionPane.showMessageDialog(null, "<html>Wasd or arrow keys to move.<br>Get to the bomb before time runs out!");
+		}
 
-		if (e.getSource() == startbut) {
+		else if (e.getSource() == startbut) {
 
 			gf.remove(gp);
 			gp.remove(starttxt);
@@ -104,8 +114,11 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 
 			gf.add(gp);
 
-			tx = gen.nextInt(5);
-			ty = gen.nextInt(5);
+			//tx = gen.nextInt(5);
+			//ty = gen.nextInt(5);
+			
+			tx = 2;
+			ty = 1;
 			
 			positions.add(new Pos(tx, ty));
 
@@ -128,14 +141,16 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 			timer = new Timer(acel / speed, this);
 			timer.start();
 
-			time += 1;
+			//time += 1;
 			
 		}
 
-		//System.out.println(time);
+		///////////////////////////////////////////System.out.println(time);
+		else if (e.getSource() == timer) {
 
-		//time -= 1;
-		time = 3;
+			
+		time -= 1;
+		//time = 3;
 
 		if (time <= 0) {
 			timer.stop();
@@ -161,7 +176,7 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 			
 		}
 
-		if (acel <= 5000) {
+		if (acel <= 500) {
 			timer.stop();
 			tx = 10;
 			ty = 10;
@@ -194,9 +209,9 @@ public class Bome_Defusal implements ActionListener, KeyListener {
 		 * y+=1; if(y>4) { y=4; } } if(e.getSource()==left){ x-=1; if(x<0) { x=0; } }
 		 * if(e.getSource()==right){ x+=1; if(x>4) { x=4; } }
 		 */
-
+		}
 		updateMap();
-
+		
 	}
 	
 class Pos{
@@ -311,12 +326,12 @@ class Pos{
 		}
 			positions.add(new Pos(tx, ty));
 			
-			System.out.println(tx + " " + ty);
+			//System.out.println(tx + " " + ty);
 			
-			acel -= 1000;
+			acel -= 100;
 
 			remain -= 1;
-			//System.out.println("Bombs remaining: " + remain);
+			System.out.println("Bombs remaining: " + remain);
 
 			timer.stop();
 			time = maxTime;
